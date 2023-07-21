@@ -53,7 +53,7 @@ var (
 		"sshd.service",
 		"zezere_ignition.timer",
 		"zezere_ignition_banner.service",
-		"greenboot",
+		"greenboot-healthcheck",
 		"greenboot-rollback",
 		"parsec",
 		"dbus-parsec",
