@@ -395,12 +395,7 @@ func (t *imageType) checkOptions(bp *blueprint.Blueprint, options distro.ImageOp
 
 	mountpoints := customizations.GetFilesystems()
 	if mountpoints != nil && t.rpmOstree && (t.name == "edge-container" || t.name == "edge-commit") {
-		// modified for testing purpose
-		// return warnings, fmt.Errorf("Custom mountpoints are not supported for edge-container and edge-commit")
-		err := blueprint.CheckMountpointsPolicy(mountpoints, pathpolicy.OstreeMountpointPolicies)
-		if err != nil {
-			return warnings, err
-		}
+		return warnings, fmt.Errorf("Custom mountpoints are not supported for edge-container and edge-commit")
 	} else if mountpoints != nil && t.rpmOstree && !(t.name == "edge-container" || t.name == "edge-commit") {
 		//customization allowed for edge-raw-image,edge-ami,edge-vsphere,edge-simplified-installer
 		err := blueprint.CheckMountpointsPolicy(mountpoints, policies.OstreeMountpointPolicies)

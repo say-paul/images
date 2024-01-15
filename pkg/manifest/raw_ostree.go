@@ -68,6 +68,12 @@ func (p *RawOSTreeImage) serialize() osbuild.Pipeline {
 
 	pipeline.AddStage(osbuild.NewCopyStage(treeCopyOptions, treeCopyInputs, treeCopyDevices, treeCopyMounts))
 
+	//new added
+	mounts := osbuild.Mounts([]osbuild.Mount{
+		*osbuild.NewExt4Mount("foo", "root", "/"),
+		*osbuild.NewExt4Mount("foo/bar", "root", "/")})
+	pipeline.AddStage(osbuild.NewPostCopyStage(&mounts))
+
 	bootFiles := p.platform.GetBootFiles()
 	if len(bootFiles) > 0 {
 		// we ignore the bootcopyoptions as they contain a full tree copy instead we make our own, we *do* still want all the other
