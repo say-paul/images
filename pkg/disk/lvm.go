@@ -66,12 +66,15 @@ func (vg *LVMVolumeGroup) GetChild(n uint) Entity {
 	return &vg.LogicalVolumes[n]
 }
 
-func (vg *LVMVolumeGroup) CreateMountpoint(mountpoint string, size uint64) (Entity, error) {
-
+func (vg *LVMVolumeGroup) CreateMountpoint(mountpoint string, size uint64, customization bool) (Entity, error) {
+	options := "defaults"
+	if customization {
+		options = "defaults,x-mount.mkdir"
+	}
 	filesystem := Filesystem{
 		Type:         "xfs",
 		Mountpoint:   mountpoint,
-		FSTabOptions: "defaults",
+		FSTabOptions: options,
 		FSTabFreq:    0,
 		FSTabPassNo:  0,
 	}

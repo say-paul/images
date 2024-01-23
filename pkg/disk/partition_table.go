@@ -375,7 +375,7 @@ func (pt *PartitionTable) applyCustomization(mountpoints []blueprint.FilesystemC
 		} else {
 			if !create {
 				newMountpoints = append(newMountpoints, mnt)
-			} else if err := pt.createFilesystem(mnt.Mountpoint, size); err != nil {
+			} else if err := pt.createFilesystem(mnt.Mountpoint, size, mnt.External); err != nil {
 				return nil, err
 			}
 		}
@@ -448,7 +448,7 @@ func (pt *PartitionTable) relayout(size uint64) uint64 {
 	return start
 }
 
-func (pt *PartitionTable) createFilesystem(mountpoint string, size uint64) error {
+func (pt *PartitionTable) createFilesystem(mountpoint string, size uint64, customization bool) error {
 	rootPath := entityPath(pt, "/")
 	if rootPath == nil {
 		panic("no root mountpoint for PartitionTable")
@@ -468,7 +468,7 @@ func (pt *PartitionTable) createFilesystem(mountpoint string, size uint64) error
 		panic("could not find root volume container")
 	}
 
-	newVol, err := vc.CreateMountpoint(mountpoint, 0)
+	newVol, err := vc.CreateMountpoint(mountpoint, 0, customization)
 	if err != nil {
 		return fmt.Errorf("failed creating volume: " + err.Error())
 	}

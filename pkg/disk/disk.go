@@ -104,7 +104,7 @@ type Mountable interface {
 // CreateMountpoint creates a new mountpoint with the given size and
 // returns the entity that represents the new mountpoint.
 type MountpointCreator interface {
-	CreateMountpoint(mountpoint string, size uint64) (Entity, error)
+	CreateMountpoint(mountpoint string, size uint64, customization bool) (Entity, error)
 
 	// AlignUp will align the given bytes according to the
 	// requirements of the container type.

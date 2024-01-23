@@ -11,6 +11,7 @@ import (
 type FilesystemCustomization struct {
 	Mountpoint string `json:"mountpoint,omitempty" toml:"mountpoint,omitempty"`
 	MinSize    uint64 `json:"minsize,omitempty" toml:"size,omitempty"`
+	External   bool   `json:"-" default:"false"`
 }
 
 func (fsc *FilesystemCustomization) UnmarshalTOML(data interface{}) error {
@@ -35,7 +36,7 @@ func (fsc *FilesystemCustomization) UnmarshalTOML(data interface{}) error {
 	default:
 		return fmt.Errorf("TOML unmarshal: size must be integer or string, got %v of type %T", d["size"], d["size"])
 	}
-
+	fsc.External = true
 	return nil
 }
 
@@ -67,7 +68,7 @@ func (fsc *FilesystemCustomization) UnmarshalJSON(data []byte) error {
 	default:
 		return fmt.Errorf("JSON unmarshal: minsize must be float64 number or string, got %v of type %T", d["minsize"], d["minsize"])
 	}
-
+	fsc.External = true
 	return nil
 }
 
